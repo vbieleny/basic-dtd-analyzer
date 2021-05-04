@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'sk.fiit'
+version '1.0'
+
+application {
+    mainClass = 'sk.fiit.basicdtd.Main'
+}
+
+run {
+    standardInput = System.in
+}
+
+jar {
+    manifest {
+        attributes('Main-Class': 'sk.fiit.basicdtd.Main')
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
