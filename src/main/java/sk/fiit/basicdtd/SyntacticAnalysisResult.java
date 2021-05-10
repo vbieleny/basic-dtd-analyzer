@@ -10,4 +10,9 @@ public final class SyntacticAnalysisResult {
     public boolean isValid() {
         return isValid;
     }
+
+    @Override
+    public String toString() {
+        return isValid ? "Valid" : "Invalid";
+    }
 }

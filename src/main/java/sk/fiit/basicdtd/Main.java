@@ -40,12 +40,16 @@ public final class Main {
                 try (final BufferedReader reader = Files.newBufferedReader(path)) {
                     final LanguageAnalyzer analyzer = new BasicDtdAnalyzer();
                     final List<Token> tokens = analyzer.lexicalAnalysis(reader.lines());
+                    System.out.println("Tokens: " + tokens + "\n");
+                    System.exit(0);
                     final SyntacticAnalysisResult result = analyzer.syntacticAnalysis(tokens);
                     System.out.printf("File \"%s\" is %s.%n", path, result.isValid() ? "valid" : "invalid");
                 } catch (final NoSuchFileException exception) {
                     System.err.printf("File \"%s\" does not exist.%n", exception.getFile());
                 } catch (final IOException exception) {
                     exception.printStackTrace();
+                } finally {
+                    System.exit(0);
                 }
             }
         }
