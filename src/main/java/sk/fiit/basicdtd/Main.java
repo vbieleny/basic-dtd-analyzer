@@ -7,14 +7,16 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public final class Main {
     public static void main(final String[] args) {
         try (final Scanner scanner = new Scanner(System.in)) {
             while (true) {
                 System.out.print("Enter input file name: ");
-                final String input = scanner.nextLine().trim();
+                String input = scanner.nextLine().trim();
 
                 if (input.equalsIgnoreCase("quit")) {
                     break;
@@ -38,18 +40,44 @@ public final class Main {
                 }
 
                 try (final BufferedReader reader = Files.newBufferedReader(path)) {
-                    final LanguageAnalyzer analyzer = new BasicDtdAnalyzer();
-                    final List<Token> tokens = analyzer.lexicalAnalysis(reader.lines());
-                    System.out.println("Tokens: " + tokens + "\n");
-                    System.exit(0);
-                    final SyntacticAnalysisResult result = analyzer.syntacticAnalysis(tokens);
-                    System.out.printf("File \"%s\" is %s.%n", path, result.isValid() ? "valid" : "invalid");
+                    final RuleLoader ruleLoader = new RuleLoader();
+                    final Map<Integer, Rule> rules = ruleLoader.loadRules("/rules.txt");
+
+                    final LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
+                    List<Token> tokens = lexicalAnalyzer.analyze(reader.lines().collect(Collectors.toList()));
+                    if (tokens.isEmpty()) {
+                        System.out.println("No valid tokens found!");
+                        continue;
+                    }
+                    System.out.println("Read tokens: " + tokens + "\n");
+                    final SyntacticAnalysis semanticAnalysis = new SyntacticAnalysis(tokens, rules);
+
+                    while (semanticAnalysis.isNotFinished()) {
+                        System.out.print("Enter number of steps to go (or \"end\" to go all steps): ");
+                        input = scanner.nextLine().trim();
+
+                        if (input.equalsIgnoreCase("end")) {
+                            semanticAnalysis.all();
+                        } else {
+                            try {
+                                int numberOfSteps = Integer.parseInt(input);
+                                while (semanticAnalysis.isNotFinished() && numberOfSteps > 0) {
+                                    semanticAnalysis.step();
+                                    numberOfSteps--;
+                                }
+                            } catch (NumberFormatException exception) {
+                                System.err.println("Please enter only number or string \"end\"!");
+                            }
+                        }
+                    }
+
+                    SyntacticAnalysisResult result = semanticAnalysis.getResult();
+                    System.out.println();
+                    System.out.printf("File \"%s\" is %s.%n%n", path, result.isValid() ? "valid" : "invalid");
                 } catch (final NoSuchFileException exception) {
                     System.err.printf("File \"%s\" does not exist.%n", exception.getFile());
                 } catch (final IOException exception) {
                     exception.printStackTrace();
-                } finally {
-                    System.exit(0);
                 }
             }
         }

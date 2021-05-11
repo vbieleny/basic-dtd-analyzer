@@ -1,0 +1,5 @@
+<!ELEMENT abc (#PCDATA)>
+<!ELEMENT somelement EMPTY>
+<!ELEMENT anotherelement ANY
+<!ATTLIST name1>
+<!ATTLIST name2 value CDATA #IMPLIED>

@@ -1,7 +1,6 @@
 package sk.fiit.basicdtd;
 
 public enum Token {
-
     T_EOS,
     T_ELEMENT("<!ELEMENT "),
     T_ATTLIST("<!ATTLIST "),
@@ -14,7 +13,6 @@ public enum Token {
     T_REQUIRED(" #REQUIRED"),
     T_IMPLIED(" #IMPLIED"),
     T_FIXED(" #FIXED"),
-    T_SL_DPARENS(" (("),
     T_SL_PARENS(" ("),
     T_S_QUOTE(" \""),
     T_R_ANGLE(1),
@@ -33,6 +31,7 @@ public enum Token {
     T_DIGIT(1),
     T_DOT(1),
     T_DASH(1),
+    T_EPSILON(1),
     T_INVALID,
 
     N_DTDDOCUMENT,
@@ -42,13 +41,13 @@ public enum Token {
     N_ELEMVAL,
     N_QUANTIFIERS,
     N_ELEMCHILD,
-    N_ELEMCMP,
+    N_ELEMSUB,
+    N_ELEMNEXT,
     N_ELEMC,
     N_ELEMP,
     N_CP,
     N_ATTRDECL,
     N_ATTRVAL,
-    N_ATTRVALREP,
     N_ATTRTYPE,
     N_WORDS,
     N_WORDSREP,
@@ -81,11 +80,11 @@ public enum Token {
         this(0);
     }
 
-    public String getPrefix() {
+    public final String getPrefix() {
         return prefix;
     }
 
-    public int getShift() {
+    public final int getShift() {
         return shift;
     }
 }

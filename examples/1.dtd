@@ -1,0 +1,8 @@
+<!ELEMENT as ((dad-c?|b+|(a)|(b|c|(abc,(def+|x_d),cd*)+)+))>
+<!ELEMENT abc (#PCDATA)>
+<!ELEMENT somelement EMPTY>
+<!ELEMENT anotherelement ANY>
+<!ATTLIST name1>
+<!ATTLIST name2 value CDATA #IMPLIED>
+<!ATTLIST name3 value1 IDREF #FIXED "1 2 3 abc">
+<!ATTLIST name3 value1 IDREF #FIXED "1 2 3 abc" value2 (word1|word2) #REQUIRED>

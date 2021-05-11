@@ -1,0 +1,4 @@
+<!ELEMENT abcdef_xyz ANY>
+<!ELEMENT name ((h,c,d)?)>
+<!ELEMENT names ((h,(cba)?,d)?)>
+<!ATTLIST yay no (abc) #FIXED "hello world">

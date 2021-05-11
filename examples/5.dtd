@@ -1,0 +1,5 @@
+<!ELEMENT abc_def (#PCDATA)>
+<!ELEMENT another ((abc|def)+)>
+<!ELEMENT ((defxs,(abc)?,vba)+)>
+<!ATTLIST cda value NMTOKEN #IMPLIED>
+<!ATTLIST hello values CDATA #REQUIRED anotherhello NMTOKEN "testing words">

@@ -7,12 +7,12 @@ public final class SyntacticAnalysisResult {
         this.isValid = isValid;
     }
 
-    public boolean isValid() {
+    public final boolean isValid() {
         return isValid;
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return isValid ? "Valid" : "Invalid";
     }
 }
